@@ -6,14 +6,12 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, View, Text} from 'react-native';
+import React, { Component } from 'react';
+import { Platform, View, Text } from 'react-native';
 
-import {createSwitchNavigator, createAppContainer, createDrawerNavigator, createBottomTabNavigator, createStackNavigator} from 'react-navigation';
+import { createSwitchNavigator, createAppContainer, createDrawerNavigator, createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 
 import Welcome from './src/components/welcome/Welcome';
-import About from './src/components/about/About';
-import Dashboard from './src/components/dashboard';
 
 import Feed from './src/components/dashboard/feed';
 import Profile from './src/components/dashboard/profile';
@@ -39,16 +37,17 @@ class App extends Component<Props> {
 
 export default App;
 
+const MenuIcon = (navigation) => <Icon name="menu" size={30} color='#000' style={{ padding: 10 }} onPress={() => navigation.openDrawer()} />;
+
 const DashboardTabNavigator = createBottomTabNavigator(
   {
-      Feed,
-      Profile,
-      Settings
+    Feed,
+    Profile,
+    Settings
   },
   {
-    navigationOptions: ({navigation}) => 
-    { 
-      const {routeName} = navigation.state.routes[navigation.state.index];
+    navigationOptions: ({ navigation }) => {
+      const { routeName } = navigation.state.routes[navigation.state.index];
       return { headerTitle: routeName };
     }
   }
@@ -56,28 +55,25 @@ const DashboardTabNavigator = createBottomTabNavigator(
 
 const DashboardStackNavigator = createStackNavigator(
   {
-    DashboardTabNavigator : DashboardTabNavigator
+    DashboardTabNavigator: DashboardTabNavigator
   },
   {
-    defaultNavigationOptions: ({navigation}) =>
-    {
-      return { headerLeft: <Icon name="menu" size={30} color='#000' style={{ padding: 10 }} onPress={ () => navigation.openDrawer() } /> };
+    defaultNavigationOptions: ({ navigation }) => {
+      return { headerLeft: MenuIcon(navigation) };
     }
   }
 );
 
 const AppDrawerNavigator = createDrawerNavigator(
   {
-    Dashboard: { screen: DashboardStackNavigator },
-    About: { screen: About },
-    Logout: {screen: Welcome},
+    Dashboard: { screen: DashboardStackNavigator }
   }
 );
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
-    Welcome: {screen: Welcome},
-    AppDrawer: {screen: AppDrawerNavigator},    
+    Welcome: { screen: Welcome },
+    AppDrawer: { screen: AppDrawerNavigator },
   }
 );
 
